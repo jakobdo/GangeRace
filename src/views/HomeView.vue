@@ -16,7 +16,7 @@ function startRace() {
 <template>
     <section class="welcome" aria-labelledby="race-title">
         <h1 id="race-title">Gangetabellen på tid.</h1>
-        <p class="intro">Vælg hvor mange regnestykker du vil løse. De trækkes fra alle kombinationer fra 1 x 1 til 10 x
+        <p class="intro">Vælg hvor mange regnestykker du vil løse. De trækkes fra alle kombinationer fra 1 * 1 til 10 *
             10.</p>
         <label class="question-count" for="question-count">
             <span>Antal regnestykker</span>

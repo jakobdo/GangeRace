@@ -31,7 +31,7 @@ function submit() {
             <span :style="{ width: `${(index / totalCount) * 100}%` }"></span>
         </div>
         <form class="answer-form" @submit.prevent="submit">
-            <p id="exercise-title" class="equation">{{ exercise.left }} <span>x</span> {{ exercise.right }}</p>
+            <p id="exercise-title" class="equation">{{ exercise.left }} <span>*</span> {{ exercise.right }}</p>
             <label class="answer-label" for="answer">Dit svar</label>
             <input id="answer" ref="answerInput" v-model="answer" class="answer-input" inputmode="numeric"
                 autocomplete="off" type="number" min="1" step="1" required />
