@@ -46,8 +46,10 @@ h1 { max-width: 620px; margin: 0; font-size: clamp(48px, 8vw, 86px); line-height
 .progress-track { height: 8px; background: #d9dfd3; overflow: hidden; }
 .progress-track span { display: block; height: 100%; background: #cd4d37; transition: width .25s ease; }
 .answer-form { display: grid; justify-items: center; margin-top: clamp(60px, 11vh, 112px); }
-.equation { margin: 0 0 45px; font-size: clamp(76px, 15vw, 144px); line-height: .8; font-weight: 500; }
+.equation { margin: 0 0 32px; font-size: clamp(76px, 15vw, 144px); line-height: .8; font-weight: 500; }
 .equation span { color: #cd4d37; }
+.square-grid { display: grid; gap: 5px; margin: 0 0 32px; }
+.square { width: var(--square-size, 20px); height: var(--square-size, 20px); border: 2px solid #17302b; border-radius: 3px; background: #cd4d37; box-shadow: 2px 2px 0 #17302b; }
 .answer-label { margin-bottom: 7px; align-self: start; color: #486159; font-size: 13px; font-weight: 800; text-transform: uppercase; }
 .answer-input { width: min(100%, 280px); margin-bottom: 27px; padding: 10px 2px; border: 0; border-bottom: 3px solid #17302b; border-radius: 0; outline: 0; color: #17302b; background: transparent; font-size: 40px; line-height: 1; text-align: center; }
 
