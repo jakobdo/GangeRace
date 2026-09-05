@@ -8,11 +8,12 @@ const answer = ref<string | number | null>(null)
 const answerInput = ref<HTMLInputElement | null>(null)
 
 // Shrink squares as rows/columns grow so the whole grid always fits without cropping.
+// First number (left) is the X axis (columns), second number (right) is the Y axis (rows).
 const squareSize = computed(() => {
     const maxBoxSize = 220
     const gap = 5
-    const byRows = (maxBoxSize + gap) / props.exercise.left - gap
-    const byColumns = (maxBoxSize + gap) / props.exercise.right - gap
+    const byColumns = (maxBoxSize + gap) / props.exercise.left - gap
+    const byRows = (maxBoxSize + gap) / props.exercise.right - gap
     return Math.max(10, Math.min(28, byRows, byColumns))
 })
 
@@ -49,7 +50,7 @@ function submit() {
         <form class="answer-form" @submit.prevent="submit">
             <p id="exercise-title" class="equation">{{ exercise.left }} <span>*</span> {{ exercise.right }}</p>
             <div class="square-grid"
-                :style="{ gridTemplateColumns: `repeat(${exercise.right}, 1fr)`, '--square-size': `${squareSize}px` }"
+                :style="{ gridTemplateColumns: `repeat(${exercise.left}, 1fr)`, '--square-size': `${squareSize}px` }"
                 aria-hidden="true">
                 <span v-for="square in exercise.left * exercise.right" :key="square" class="square"></span>
             </div>
