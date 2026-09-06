@@ -15,6 +15,16 @@ function retry() {
     race.startRace(race.totalCount.value)
     router.replace({ name: 'race' })
 }
+
+function practiceErrors() {
+    race.startPracticeErrors()
+    router.replace({ name: 'race' })
+}
+
+function practiceTables(tables: number[]) {
+    race.startPracticeTables(tables)
+    router.replace({ name: 'race' })
+}
 </script>
 
 <template>
@@ -29,6 +39,21 @@ function retry() {
         </div>
         <ErrorBreakdown :stats="race.tableStats.value" :weakest-table="race.weakestTable.value"
             :get-errors="race.getErrorsForTable" />
+        <section v-if="race.tableStats.value.length" class="practice-options" aria-labelledby="practice-title">
+            <p class="eyebrow">Næste runde</p>
+            <h2 id="practice-title">Hvad vil du øve?</h2>
+            <div class="practice-actions">
+                <button class="primary-button" type="button" @click="practiceErrors">Øv alle fejl</button>
+                <button class="secondary-button" type="button"
+                    @click="practiceTables([race.weakestTable.value!.table])">
+                    Øv {{ race.weakestTable.value!.table }}-tabellen
+                </button>
+                <button v-if="race.tableStats.value.length > 1" class="secondary-button" type="button"
+                    @click="practiceTables(race.tableStats.value.map(({ table }) => table))">
+                    Øv alle tabeller med fejl
+                </button>
+            </div>
+        </section>
         <button class="primary-button" type="button" @click="retry">Prøv igen</button>
     </section>
 </template>

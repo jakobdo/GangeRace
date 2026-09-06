@@ -15,8 +15,8 @@ const hasFinished = ref(false)
 const elapsedSeconds = ref(0)
 let timerId: number | undefined
 
-function shuffledExercises(): Exercise[] {
-  const allExercises = Array.from({ length: 10 }, (_, leftIndex) =>
+function allExercises(): Exercise[] {
+  return Array.from({ length: 10 }, (_, leftIndex) =>
     Array.from({ length: 10 }, (_, rightIndex) => ({
       id: `${leftIndex + 1}-${rightIndex + 1}`,
       left: leftIndex + 1,
@@ -25,12 +25,15 @@ function shuffledExercises(): Exercise[] {
       isCorrect: null,
     })),
   ).flat()
+}
 
-  for (let index = allExercises.length - 1; index > 0; index -= 1) {
+function shuffle(exercisesToShuffle: Exercise[]) {
+  const shuffled = [...exercisesToShuffle]
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
     const randomIndex = Math.floor(Math.random() * (index + 1))
-    ;[allExercises[index], allExercises[randomIndex]] = [allExercises[randomIndex], allExercises[index]]
+    ;[shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]]
   }
-  return allExercises
+  return shuffled
 }
 
 export function useRace() {
@@ -60,9 +63,9 @@ export function useRace() {
     tableStats.value.length ? [...tableStats.value].sort((first, second) => second.wrong - first.wrong)[0] : null,
   )
 
-  function startRace(questionCount = 100) {
-    const safeQuestionCount = Math.max(1, Math.min(100, Math.floor(questionCount)))
-    exercises.value = shuffledExercises().slice(0, safeQuestionCount)
+  function startExercises(nextExercises: Exercise[]) {
+    if (!nextExercises.length) return
+    exercises.value = shuffle(nextExercises)
     currentIndex.value = 0
     elapsedSeconds.value = 0
     hasStarted.value = true
@@ -71,6 +74,23 @@ export function useRace() {
     timerId = window.setInterval(() => {
       elapsedSeconds.value += 1
     }, 1000)
+  }
+
+  function startRace(questionCount = 100) {
+    const safeQuestionCount = Math.max(1, Math.min(100, Math.floor(questionCount)))
+    startExercises(shuffle(allExercises()).slice(0, safeQuestionCount))
+  }
+
+  function startPracticeErrors() {
+    startExercises(
+      exercises.value
+        .filter((exercise) => exercise.isCorrect === false)
+        .map(({ id, left, right }) => ({ id, left, right, answer: '', isCorrect: null })),
+    )
+  }
+
+  function startPracticeTables(tables: number[]) {
+    startExercises(allExercises().filter((exercise) => tables.includes(exercise.left)))
   }
 
   function submitAnswer(answer: string | number | null) {
@@ -110,6 +130,8 @@ export function useRace() {
     tableStats,
     weakestTable,
     startRace,
+    startPracticeErrors,
+    startPracticeTables,
     submitAnswer,
     getErrorsForTable,
   }
