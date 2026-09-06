@@ -18,12 +18,14 @@ function startRace() {
         <h1 id="race-title">Gangetabellen på tid.</h1>
         <p class="intro">Vælg hvor mange regnestykker du vil løse. De trækkes fra alle kombinationer fra 1 * 1 til 10 *
             10.</p>
-        <label class="question-count" for="question-count">
-            <span>Antal regnestykker</span>
-            <input id="question-count" v-model.number="questionCount" type="number" min="1" max="100" step="1"
-                required />
-        </label>
-        <button class="primary-button" type="button" @click="startRace">Start løbet</button>
+        <form @submit.prevent="startRace">
+            <label class="question-count" for="question-count">
+                <span>Antal regnestykker</span>
+                <input id="question-count" v-model.number="questionCount" type="number" min="1" max="100" step="1"
+                    required />
+            </label>
+            <button class="primary-button" type="submit">Start løbet</button>
+        </form>
         <p class="quiet-note">Gangestykkerne blandes ved hver ny runde.</p>
     </section>
 </template>
